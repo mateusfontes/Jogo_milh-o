@@ -8,14 +8,17 @@ function sorteiaPergunta($dificuldade) {
 
     $idsPerguntasJaUsadas = $_SESSION['ids_questoes_usadas'];
 
-    $query = "SELECT id, questao, correta, falsa1, falsa2, falsa3, dificuldade 
-    FROM perguntas WHERE dificuldade = '{$dificuldade}'";
+    $query = "SELECT id, questao, correta, falsa1, falsa2, falsa3, dificuldade, categoria 
+    FROM perguntas WHERE dificuldade = '{$dificuldade}' and categoria = '{$_SESSION['categoria_perguntas']}'";
 
     $resultado = $conexao->query($query);
 
-    if(! $resultado) {
+    if(! $resultado || $resultado == []) {
         return null;
     }
+
+
+
 
     $perguntas = $resultado->fetch_all(MYSQLI_ASSOC);
 

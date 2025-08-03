@@ -14,6 +14,12 @@ if (session_status() === PHP_SESSION_NONE) {
     if (!isset($_SESSION['ids_questoes_usadas'])) {
     $_SESSION['ids_questoes_usadas'] = [];
     }
+
+    if (!isset($_SESSION['categoria_perguntas'])) {
+    $_SESSION['categoria_perguntas'] = "conhecimentos-gerais";
+    }
+
+    
 }
 
 
@@ -65,11 +71,25 @@ function pontuacaoQuestao($numero_questao) {
     return ($numero_questao - $subtracao) * $produto;
 }
 
+function restauraSessao() {
+    unset($_SESSION['ultima_questao']);
+    unset($_SESSION['ids_questoes_usadas']);
+    unset($_SESSION['numero_questao']);
+    unset($_SESSION['pontuacao']);
+    exit();
+
+}
 
 function respondeuQuestao($resultado) {
     
     switch($resultado){
         case $resultado == 'ACERTOU':
+                if($_SESSION['numero_questao'] == 16){
+                    $_SESSION['pontuacao'] = 1000000;
+                    echo json_encode(["jogo_finalizado" => "Usuário ganhou 1 milhão"]);
+                    restauraSessao();
+
+                }
                 $_SESSION['pontuacao'] += pontuacaoQuestao($_SESSION['numero_questao']);
                 break;
 
@@ -77,9 +97,9 @@ function respondeuQuestao($resultado) {
             $_SESSION['pontuacao'] /=  2;
             break;
         case $resultado == "PAROU":
-            $_SESSION = [];
-            session_destroy();
-            exit();
+            echo json_encode(["Pontuacao_final" => $_SESSION['pontuacao']]);
+            restauraSessao();            
+            
         default:
             echo json_encode(["erro" => "Resultado inválido. Esperado -> 'ACERTOU', 'ERROU' ou 'PAROU'"]);
     }
