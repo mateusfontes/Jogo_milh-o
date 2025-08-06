@@ -10,6 +10,7 @@
 body{
     margin: 0;
     padding: 50px 100px;
+    font-family: Arial, sans-serif;
     background-image: radial-gradient(circle at center, var(--azul-claro), var(--azul-escuro));
 }
 
@@ -25,7 +26,13 @@ section{
 section .opcao{
     display: flex;
 }
-section .opcao a{
+select {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+section .opcao a,
+section .opcao select {
+    font-size: 14px;
     width: 200px;
     height: 50px;
     border: #ffffff solid 2px;
@@ -37,9 +44,25 @@ section .opcao a{
     justify-content: center;
     align-items: center;
     margin: 10px;
+
+    /* Remover aparência nativa e bordas pretas */
+    outline: none;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
 }
 
-section .opcao a:hover{
+section .opcao select:hover{ 
+    color: black;
+    background-color: #ffffff;
+    border: black solid 2px;
+}
+
+section .opcao a:hover{ 
     color: black;
     background-color: #ffffff;
     border: black solid 2px;
