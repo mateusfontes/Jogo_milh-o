@@ -1,6 +1,4 @@
 <?php
-require_once dirname(__DIR__, 1) . '\services\perguntas.php';
-require_once dirname(__DIR__, 1) . '\models\pergunta.php';
 
 require dirname(__DIR__, 1) . '\cors.php';
 
@@ -8,47 +6,35 @@ $metodo = $_SERVER['REQUEST_METHOD'];
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 
-    if (!isset($_SESSION['pontuacao'])) {
-    $_SESSION['pontuacao'] = 0;
+    if (!isset($_SESSION['categoria_perguntas'])) {
+    $_SESSION['categoria_perguntas'] = "conhecimentos-gerais";
     }
-
-    if (!isset($_SESSION['numero_questao'])) {
-    $_SESSION['numero_questao'] = 1;
-    }
-
-    if (!isset($_SESSION['ultima_questao'])) {
-    $_SESSION['ultima_questao'] = 0;
-    }
-
-    if (!isset($_SESSION['ids_questoes_usadas'])) {
-    $_SESSION['ids_questoes_usadas'] = [];
-    }
-
 }
 
 
+
+$tipos_categoria = ["conhecimentos-gerais", "raciocinio-logico", "portugues" , 
+"matematica", "geografia", "historia", "ciencias", "cultura-pop", 
+"esportes", "tecnologia", "curiosidades"];
+
 switch ($metodo) {
     case 'GET':
-        //if($_SESSION['ultima_questao'] != $_SESSION["numero_questao"]){
-
-           get_pergunta($_SESSION["numero_questao"]); 
-            $_SESSION['ultima_questao'] = $_SESSION["numero_questao"];
-        //}
-        //else {
-            //echo json_encode(["erro" => "Para pedir uma nova questão o resultado da última questão deve ser informado."]);
-        //}
+        
+        echo json_encode(["categoria" => $_SESSION['categoria_perguntas']]);
+        
         break;
-    case 'POST':
+    case 'PUT':
         $input = json_decode(file_get_contents("php://input"), true);
-        create_pergunta(
-            $input["questao"],
-            $input["correta"],
-            $input["falsa1"],
-            $input["falsa2"],
-            $input["falsa3"],
-            $input["dificuldade"],
-            $input["categoria"]
-        );
+        if(in_array($input["categoria"], $tipos_categoria) ) {
+            
+            $_SESSION["categoria_perguntas"] = $input["categoria"];
+            echo json_encode(["Sucesso" => "Categoria alterada"]);
+           
+            
+        }
+        else {
+            echo json_encode(["erro" => "Valor inválido."]);
+        }
         break;
     default:
         echo json_encode(["erro" => "Método não permitido"]);

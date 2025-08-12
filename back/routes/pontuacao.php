@@ -1,5 +1,7 @@
 <?php
 
+require dirname(__DIR__, 1) . '\cors.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 
