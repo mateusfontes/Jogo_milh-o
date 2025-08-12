@@ -1,6 +1,7 @@
 // ---------- CONFIG ----------
-const URL_PERGUNTAS = '/api/perguntas.php';
-const URL_PONTUACAO = '/api/pontuacao.php';
+const URL_PERGUNTAS = 'http://localhost/Jogo_milh-o/back/routes/perguntas.php';
+const URL_PONTUACAO = 'http://localhost/Jogo_milh-o/back/routes/pontuacao.php';
+const URL_CATEGORIA = 'http://localhost/Jogo_milh-o/back/routes/categoria.php';
 
 
 // ---------- ESTADO (exportado p/ o componente consultar) ----------

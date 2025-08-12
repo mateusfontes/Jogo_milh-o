@@ -49,7 +49,7 @@
 <script>
 import { carregarPergunta, selecionarAlternativa, confirmarResposta, getQuizState } from "./jogo.js";
 
-const URL_PONTUACAO = '/api/pontuacao.php'; // se não usar proxy, troque para http://localhost/PW/trabalho/back/routes/pontuacao.php
+const URL_PONTUACAO = 'http://localhost/Jogo_milh-o/back/routes/pontuacao.php'; // se não usar proxy, troque para http://localhost/PW/trabalho/back/routes/pontuacao.php
 
 export default {
   name: "Jogo",

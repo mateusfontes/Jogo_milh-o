@@ -33,22 +33,76 @@ let onClick = null
 function getSelect() {
   return document.getElementById('categoria')
 }
+
+
+
 function getIniciarLink() {
   const links = Array.from(document.querySelectorAll('a'))
-  return links.find(
-    el => el.getAttribute('href')?.endsWith('/iniciar-jogo') ||
-          el.textContent?.trim().toUpperCase() === 'INICIAR JOGO'
+  return links.find(el =>
+    el.getAttribute('href')?.endsWith('/iniciar-jogo') ||
+    el.textContent?.trim().toUpperCase() === 'INICIAR JOGO'
   ) || null
 }
-function setCategoria(val) {
-  const cat = val || 'conhecimentos-gerais'
+
+async function setCategoria(val) {
+  const cat = val
+
+  // 1) Persistência local + atualização do link (usando URL API)
   localStorage.setItem('quiz_categoria', cat)
   const link = getIniciarLink()
   if (link) {
-    const base = link.href.split('?')[0]
-    link.href = `${base}?categoria=${encodeURIComponent(cat)}`
+    try {
+      const url = new URL(link.href, window.location.origin) // cobre href relativo
+      url.searchParams.set('categoria', cat)
+      link.href = url.toString()
+    } catch {
+      // fallback simples se href for algo muito custom
+      const base = (link.href || '').split('?')[0]
+      link.href = `${base}?categoria=${encodeURIComponent(cat)}`
+    }
+  }
+
+  try {
+    const resp = await fetch('http://localhost/Jogo_milh-o/back/routes/categoria.php', {
+      method: 'PUT',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ categoria: cat }),
+    })
+
+
+
+    if (!resp.ok) {
+      console.warn('Falha ao salvar categoria no back:', resp.status)
+    }
+  } catch (err) {
+    console.warn('Erro na requisição de categoria:', err)
   }
 }
+
+async function getCategoria() {
+  try {
+    const resp = await fetch('http://localhost/Jogo_milh-o/back/routes/categoria.php', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!resp.ok) {
+      throw new Error(`Erro na requisição: ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    
+    return data;
+  } catch (err) {
+    
+    return null;
+  }
+}
+
 
 onMounted(async () => {
   await nextTick()
@@ -56,7 +110,8 @@ onMounted(async () => {
   const link = getIniciarLink()
   if (!select || !link) return
 
-  setCategoria(select.value)               // valor inicial
+  const categoriaAtual = await getCategoria();  
+  console.log(categoriaAtual)
 
   onChange = () => setCategoria(select.value)
   select.addEventListener('change', onChange)
