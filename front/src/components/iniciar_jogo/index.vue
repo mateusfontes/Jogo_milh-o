@@ -3,8 +3,10 @@
     <section>
           <div id="conteudo-esqueda">
               <div id="caixa-pergunta">
+                  <h1 id="numero_questao">1</h1>
                   <h1 id="pergunta">Texto aqui</h1>
               </div>
+              <h2 id="mensagem_milhao">Essa é a pergunta do milhão. Clique Pare e mantenha o que acumulou até agora ou continue e arrisque!!</h2>
               <nav class="conteudo-opcoes">
                   <ul>
                     <button  @click="cor_botao" id="button_a" type="button">1</button>
@@ -53,7 +55,7 @@ const URL_PONTUACAO = 'http://localhost/Jogo_milh-o/back/routes/pontuacao.php'; 
 
 export default {
   name: "Jogo",
-
+  
   methods: {
     // Disparado pelos 4 botões (1..4) via @click="cor_botao"
     cor_botao(event) {

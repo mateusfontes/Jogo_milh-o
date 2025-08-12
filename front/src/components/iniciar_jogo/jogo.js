@@ -29,6 +29,8 @@ function resetCoresBotoes() {
   });
 }
 
+
+
 function marcarSelecionado(botaoId) {
   // limpa seleção anterior
   ['button_a', 'button_b', 'button_c', 'button_d'].forEach(id => {
@@ -130,6 +132,7 @@ function renderPergunta(q) {
   ]);
 
   setText('pergunta', q.questao || 'Pergunta');
+  setText('numero_questao', q.numero_questao || '?')
   setText('A', alternativas[0]?.text || '');
   setText('B', alternativas[1]?.text || '');
   setText('C', alternativas[2]?.text || '');
@@ -155,6 +158,15 @@ export async function carregarPergunta() {
   try {
     setText('pergunta', 'Carregando pergunta...');
     const q = await getPergunta();
+
+    const mensagem_milhao = document.getElementById("mensagem_milhao")
+    if(q.numero_questao == 16) {
+      mensagem_milhao.style.display = 'flex'
+    }
+    else {
+      mensagem_milhao.style.display = 'none'
+    }
+
     renderPergunta(q);
     podePedirProxima = false; // travamos até confirmar (PUT)
   } catch (e) {
