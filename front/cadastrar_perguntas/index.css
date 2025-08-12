@@ -1,0 +1,170 @@
+:root {
+  --azul-escuro: #0065F6;
+  --azul-claro: #1595cc;
+  --preto: black;
+  --cinza: rgb(40, 40, 40);
+  --tamanho-fonte: 12px;
+  --espacamento-padrao: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--azul-claro), var(--azul-escuro));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 40px;
+  color: white;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  padding: 20px 0;
+}
+
+header h1 {
+  margin-bottom: 0;
+}
+
+header p {
+  margin-bottom: 5px;
+}
+
+.cadastrar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.conteudo {
+  background-color: rgb(78, 157, 226);
+  width: 500px;
+  border: 2px solid white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  color: white;
+  margin-bottom: 50px;
+}
+
+.conteudo h1 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.conteudo p {
+  margin-bottom: 20px;
+}
+
+form.perguntas {
+  width: 100%;
+}
+
+/* Centralizar os títulos diretos em .perguntas */
+.perguntas  h4 {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: white;
+}
+
+.area-texto {
+  margin-bottom: 20px;
+}
+
+.area-texto input {
+  width: 400px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: white;
+  color: var(--cinza);
+  font-size: var(--tamanho-fonte);
+}
+
+.alternativa {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.alternativa input {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: white;
+  color: var(--cinza);
+  font-size: var(--tamanho-fonte);
+}
+
+.opcao {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: var(--azul-claro);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+select#cores {
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: var(--tamanho-fonte);
+  background-color: white;
+  color: var(--cinza);
+}
+
+button[type="submit"] {
+  display: block;
+  margin: 20px auto 0 auto;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: var(--azul-escuro);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  border: #0065F6 solid 2px;
+}
+.botao-enviar:hover {
+  background: #0065F6;
+  transition: background 0.3s ease;
+  border: white solid 2px;
+}
+
