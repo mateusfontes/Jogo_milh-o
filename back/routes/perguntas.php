@@ -29,14 +29,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 switch ($metodo) {
     case 'GET':
-        //if($_SESSION['ultima_questao'] != $_SESSION["numero_questao"]){
+        if($_SESSION['ultima_questao'] != $_SESSION["numero_questao"]){
 
            get_pergunta($_SESSION["numero_questao"]); 
             $_SESSION['ultima_questao'] = $_SESSION["numero_questao"];
-        //}
-        //else {
-            //echo json_encode(["erro" => "Para pedir uma nova questão o resultado da última questão deve ser informado."]);
-        //}
+        }
+        else {
+            echo json_encode(["erro" => "Para pedir uma nova questão o resultado da última questão deve ser informado."]);
+        }
         break;
     case 'POST':
         $input = json_decode(file_get_contents("php://input"), true);
