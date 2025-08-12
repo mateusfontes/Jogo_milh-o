@@ -1,6 +1,23 @@
 <?php
 require_once dirname(__DIR__, levels: 1) . '\database.php';
 
+function getPerguntaByID($id) {
+    global $conexao;
+
+    $query = "SELECT id, questao, correta, falsa1, falsa2, falsa3, dificuldade, categoria FROM perguntas
+    WHERE id = '{$id}'";
+
+    $resultado = $conexao->query($query);
+
+    if(! $resultado || $resultado == []) {
+        return null;
+    }
+
+    $perguntas = $resultado->fetch_all(MYSQLI_ASSOC);
+
+    return $perguntas[0];
+
+}
 
 function sorteiaPergunta($dificuldade) {
     
@@ -16,8 +33,6 @@ function sorteiaPergunta($dificuldade) {
     if(! $resultado || $resultado == []) {
         return null;
     }
-
-
 
 
     $perguntas = $resultado->fetch_all(MYSQLI_ASSOC);

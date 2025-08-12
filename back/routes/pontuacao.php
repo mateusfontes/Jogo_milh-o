@@ -21,6 +21,10 @@ if (session_status() === PHP_SESSION_NONE) {
     $_SESSION['categoria_perguntas'] = "conhecimentos-gerais";
     }
 
+    if (!isset($_SESSION['id_questao_atual'])) {
+    $_SESSION['id_questao_atual'] = null;
+    }
+
     
 }
 
@@ -107,5 +111,5 @@ function respondeuQuestao($resultado) {
     }
 
     $_SESSION["numero_questao"] += 1;
-
+    $_SESSION['id_questao_atual'] = null;
 }

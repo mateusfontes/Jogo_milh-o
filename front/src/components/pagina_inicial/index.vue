@@ -46,7 +46,7 @@ function getIniciarLink() {
 
 async function setCategoria(val) {
   const cat = val
-
+  console.log("Em setCategoria: ", val)
   // 1) Persistência local + atualização do link (usando URL API)
   localStorage.setItem('quiz_categoria', cat)
   const link = getIniciarLink()
@@ -116,16 +116,6 @@ onMounted(async () => {
   onChange = () => setCategoria(select.value)
   select.addEventListener('change', onChange)
 
-  // só garante que a URL está com a categoria atual antes de navegar
-  onClick = (e) => {
-    const a = e.target.closest('a')
-    if (!a) return
-    const isIniciar = a.getAttribute('href')?.includes('/iniciar-jogo') ||
-                      a.textContent?.trim().toUpperCase() === 'INICIAR JOGO'
-    if (!isIniciar) return
-    setCategoria(select.value)
-  }
-  document.addEventListener('click', onClick)
 })
 
 onBeforeUnmount(() => {
