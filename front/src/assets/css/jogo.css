@@ -1,19 +1,10 @@
-:root {
-  --azul-escuro: #0c4798;
-  --azul-claro: #1595cc;
-  --preto: black;
-  --amarelo-queimado: #af960c;
-  --preto: rgb(0, 0, 0);
-  --tamanho-fonte: 18px;
-  --espacamento-padrao: 16px;
-}
-
-body {
+.body {
     height: 100vh;
     background-color: #113079;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
 }
 
 section{
@@ -91,12 +82,12 @@ button{
 }
 
 #conteudo-esqueda .conteudo-opcoes button{
+    background: #bc760e;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
     width: 50px;
-    background-color: var(--amarelo-queimado);
     border: white solid 2px;
     border-radius: 100%;
     cursor: pointer;
@@ -106,8 +97,8 @@ button{
 
 #conteudo-esqueda .conteudo-opcoes button:hover{
     background-color: white;
-    border: var(--amarelo-queimado) solid 2px;
-    color: black;
+    border: #bc760e solid 2px;
+    color: #bc760e;
 }
 
 #conteudo-direita{

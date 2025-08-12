@@ -1,18 +1,4 @@
-:root {
-  --azul-escuro: #0065F6;
-  --azul-claro: #1595cc;
-  --preto: black;
-  --cinza: rgb(40, 40, 40);
-  --tamanho-fonte: 12px;
-  --espacamento-padrao: 16px;
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
 
 body {
   width: 100%;

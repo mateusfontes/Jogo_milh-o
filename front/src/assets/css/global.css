@@ -1,0 +1,15 @@
+:root {
+  --azul-escuro: #0065F6;
+  --azul-claro: #1595cc;
+  --preto: rgb(0, 0, 0); /* A última definição de --preto prevalece. */
+  --cinza: rgb(40, 40, 40);
+  --amarelo_queimado: #de940000;
+  --tamanho-fonte: 12px; /* A última definição de --tamanho-fonte prevalece. */
+  --espacamento-padrao: 16px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}

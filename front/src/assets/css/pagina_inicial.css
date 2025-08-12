@@ -1,22 +1,10 @@
-:root {
-  --azul-escuro: #0065F6;
-  --azul-claro: #1595cc;
-  --preto: black;
-  --preto: rgb(0, 0, 0);
-  --tamanho-fonte: 18px;
-  --espacamento-padrao: 16px;
+*{
+    background-color: #1595cc;
+    height: 100%;
 }
-
-body{
-    margin: 0;
-    padding: 50px 100px;
-    font-family: Arial, sans-serif;
-    background-image: radial-gradient(circle at center, var(--azul-claro), var(--azul-escuro));
-}
-
 section{
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
