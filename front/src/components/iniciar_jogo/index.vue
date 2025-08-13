@@ -1,12 +1,21 @@
 <template>
   <div class=" body">
     <section>
+
+          <Modal v-model:show="mostrarModal">
+            <h2>{{ mensagemFinal }}</h2>
+            <RouterLink to="/" id="botaoJogarNovamente" @click.prevent="jogarNovamente">
+              JOGAR NOVAMENTE
+            </RouterLink>          
+          </Modal>
+
+
           <div id="conteudo-esqueda">
               <div id="caixa-pergunta">
                   <h1 id="numero_questao">1</h1>
                   <h1 id="pergunta">Texto aqui</h1>
               </div>
-              <h2 id="mensagem_milhao">Essa é a pergunta do milhão. Clique Pare e mantenha o que acumulou até agora ou continue e arrisque!!</h2>
+              <h2 id="mensagem_milhao">Essa é a pergunta do milhão. Pare e mantenha o que acumulou até agora, ou continue e arrisque!!</h2>
               <nav class="conteudo-opcoes">
                   <ul>
                     <button  @click="cor_botao" id="button_a" type="button">1</button>
@@ -49,7 +58,8 @@
 </template>
 
 <script>
-import { carregarPergunta, selecionarAlternativa, confirmarResposta, getQuizState } from "./jogo.js";
+import { carregarPergunta, selecionarAlternativa, confirmarResposta, getQuizState, setHandleResultadoFinal, getPontuacaoAtual } from "./jogo.js";
+import Modal from "../modalResultadoFinal/index.vue";
 
 const URL_PONTUACAO = 'http://localhost/Jogo_milh-o/back/routes/pontuacao.php'; // se não usar proxy, troque para http://localhost/PW/trabalho/back/routes/pontuacao.php
 
@@ -62,11 +72,55 @@ export default {
       // seleciona/deseleciona a alternativa (amarelo)
       selecionarAlternativa(event.target.id);
     },
+
+    handleResultadoFinal(tipo) {
+  
+      if(tipo=="GANHOU") {
+        this.mensagemFinal = "🎉🤑🤩🥳😃 PARABÉNS VOCÊ GANHOU 1 MILHÃO!!!! 🎉🤑🤩🥳😃"
+      }
+      else if(tipo=="PERDEU") {
+        this.mensagemFinal = "😨🥺😓😫😭😪 Você perdeu tudo 😨🥺😓😫😭😪"
+      } 
+      else if(tipo=="PAROU") {
+        this.mensagemFinal = `Você parou o jogo com R$ ${getPontuacaoAtual()}`
+      }
+
+      this.mostrarModal = true
+    },
+    async jogarNovamente() {
+      try {
+        await fetch(URL_PONTUACAO, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ resultado: 'PAROU' })
+          });
+      } catch (e) {
+        console.error('PAROU:', e?.message || e);
+      } finally {
+        this.mostrarModal = false;
+        this.$router.push('/'); 
+      }
+    },
   },
 
+  components : {
+    Modal
+  }, 
+  data() {
+    return {
+      mostrarModal: false,
+      mensagemFinal: ""
+    };
+  },
   mounted() {
+
+    setHandleResultadoFinal(this.handleResultadoFinal);
+    console.log("Carregando pergunta")
     // 1) carrega a primeira pergunta
     carregarPergunta();
+    console.log("carregou pergunta")
+
 
     // 2) Botão PROXIMO:
     //    - se ainda não confirmou, CONFIRMA (PUT)
@@ -83,26 +137,14 @@ export default {
           await carregarPergunta();       // depois pede a próxima
         }
       });
-    }
+    }    
+
 
     // 3) Botão PARAR
     const parar = document.getElementById('parar');
     if (parar) {
       parar.addEventListener('click', async () => {
-        try {
-          await fetch(URL_PONTUACAO, {
-            method: 'PUT',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ resultado: 'PAROU' })
-          });
-          // feedback simples na UI
-          const p = document.getElementById('pergunta');
-          if (p) p.textContent = 'Jogo encerrado. Você ficou com a sua pontuação.';
-          if (prox) prox.disabled = true;
-        } catch (e) {
-          console.error('PAROU:', e?.message || e);
-        }
+        this.handleResultadoFinal("PAROU")
       });
     }
   },

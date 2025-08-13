@@ -10,6 +10,9 @@ let bloqueado        = false;   // fim de jogo / PAROU
 let selecionadoId    = null;    // 'button_a' | 'button_b' | 'button_c' | 'button_d'
 let respondeuEsta    = false;   // já confirmou esta questão?
 let podePedirProxima = true;    // só pedir GET depois do PUT, como o back exige
+let numeroQuestaoAtual = 1
+let callbackResultadoFinal = null;
+let pontuacaoAtual = 0;
 
 export function getQuizState() {
   return { gabaritoAtual, bloqueado, selecionadoId, respondeuEsta, podePedirProxima };
@@ -28,7 +31,6 @@ function resetCoresBotoes() {
     }
   });
 }
-
 
 
 function marcarSelecionado(botaoId) {
@@ -62,6 +64,7 @@ function setProximoComoProximo() {
 
 // preserva a imagem dentro do <h1 id="pontos">
 function setPlacar(pontos) {
+  pontuacaoAtual = pontos;
   const el = document.getElementById('pontos');
   if (!el) return;
   const img = el.querySelector('img');
@@ -148,6 +151,10 @@ function renderPergunta(q) {
   setProximoComoConfirmar();
 }
 
+export function getPontuacaoAtual() {
+  return pontuacaoAtual;
+}
+
 // ---------- FLUXO ----------
 export async function carregarPergunta() {
   if (bloqueado) return;
@@ -158,6 +165,7 @@ export async function carregarPergunta() {
   try {
     setText('pergunta', 'Carregando pergunta...');
     const q = await getPergunta();
+    numeroQuestaoAtual = q.numero_questao
 
     const mensagem_milhao = document.getElementById("mensagem_milhao")
     if(q.numero_questao == 16) {
@@ -194,6 +202,10 @@ export function selecionarAlternativa(botaoId) {
   marcarSelecionado(botaoId);
 }
 
+export function setHandleResultadoFinal(cb) {
+  callbackResultadoFinal = cb;
+}
+
 // Confirma resposta (envia PUT) — depois o botão PROXIMO carrega a próxima
 export async function confirmarResposta() {
   if (bloqueado || respondeuEsta) return;
@@ -203,6 +215,13 @@ export async function confirmarResposta() {
   const liId = map[selecionadoId];
   const escolhido = (document.getElementById(liId)?.textContent || '').trim();
   const acertou   = escolhido === gabaritoAtual;
+
+  if(numeroQuestaoAtual == 16){
+
+    callbackResultadoFinal(acertou ? "GANHOU" : "PERDEU");
+  }
+
+
 
   // feedback imediato no botão escolhido
   const btn = document.getElementById(selecionadoId);

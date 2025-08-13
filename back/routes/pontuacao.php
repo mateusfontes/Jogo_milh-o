@@ -82,6 +82,7 @@ function restauraSessao() {
     unset($_SESSION['ids_questoes_usadas']);
     unset($_SESSION['numero_questao']);
     unset($_SESSION['pontuacao']);
+    unset($_SESSION['id_questao_atual']);
     exit();
 
 }
@@ -103,7 +104,7 @@ function respondeuQuestao($resultado) {
             $_SESSION['pontuacao'] /=  2;
             break;
         case $resultado == "PAROU":
-            echo json_encode(["Pontuacao_final" => $_SESSION['pontuacao']]);
+            echo json_encode(value: ["Pontuacao_final" => $_SESSION['pontuacao']]);
             restauraSessao();            
             
         default:
