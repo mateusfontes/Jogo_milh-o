@@ -110,8 +110,11 @@ onMounted(async () => {
   const link = getIniciarLink()
   if (!select || !link) return
 
+  
+
   const categoriaAtual = await getCategoria();  
-  console.log(categoriaAtual)
+  select.value = categoriaAtual.categoria;
+
 
   onChange = () => setCategoria(select.value)
   select.addEventListener('change', onChange)
