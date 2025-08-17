@@ -26,6 +26,7 @@
 
 <script setup>
 import { onMounted, onBeforeUnmount, nextTick } from 'vue'
+import {resetaQuizState} from '../iniciar_jogo/jogo'
 
 let onChange = null
 let onClick = null
@@ -108,6 +109,7 @@ onMounted(async () => {
   await nextTick()
   const select = getSelect()
   const link = getIniciarLink()
+  resetaQuizState();
   if (!select || !link) return
 
   

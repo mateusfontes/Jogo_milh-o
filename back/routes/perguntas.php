@@ -31,6 +31,7 @@ switch ($metodo) {
     case 'GET':
         if($_SESSION['id_questao_atual']){
             $dict_pergunta = getPerguntaByID($_SESSION['id_questao_atual']);
+            $dict_pergunta = escondeRespostaCorreta($dict_pergunta);
             $dict_pergunta["numero_questao"] = $_SESSION['numero_questao'];
             echo json_encode($dict_pergunta);
         }

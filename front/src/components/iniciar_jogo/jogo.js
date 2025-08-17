@@ -30,7 +30,7 @@ export function resetaQuizState() {
 
 // ---------- UTILS DOM ----------
 const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-const embaralhar = (arr) => [...arr].sort(() => Math.random() - 0.5);
+
 
 function resetCoresBotoes() {
   ['button_a', 'button_b', 'button_c', 'button_d'].forEach(id => {
@@ -114,11 +114,11 @@ async function fetchJSON(url, options = {}) {
 async function getPergunta() {
   return fetchJSON(URL_PERGUNTAS, { method: 'GET' });
 }
-async function putPontuacao(resultado) {
+async function putPontuacao(textoAlternativa) {
   return fetchJSON(URL_PONTUACAO, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ resultado })
+    body: JSON.stringify({ "alternativa" : textoAlternativa })
   });
 }
 
@@ -137,22 +137,13 @@ export async function alterarCategoria(categoria) {
 // ---------- RENDER ----------
 function renderPergunta(q) {
   // Esperado: { questao, correta, falsa1, falsa2, falsa3, numero_questao, ... }
-  const alternativas = embaralhar([
-    { id: 'A', text: q.correta, correta: true },
-    { id: 'B', text: q.falsa1, correta: false },
-    { id: 'C', text: q.falsa2, correta: false },
-    { id: 'D', text: q.falsa3, correta: false },
-  ]);
-
+  
   setText('pergunta', q.questao || 'Pergunta');
   setText('numero_questao', q.numero_questao || '?')
-  setText('A', alternativas[0]?.text || '');
-  setText('B', alternativas[1]?.text || '');
-  setText('C', alternativas[2]?.text || '');
-  setText('D', alternativas[3]?.text || '');
-
-  // guarda gabarito (texto da correta)
-  gabaritoAtual = (alternativas.find(a => a.correta)?.text) || '';
+  setText('A', q.alternativas[0]);
+  setText('B', q.alternativas[1]);
+  setText('C', q.alternativas[2]);
+  setText('D', q.alternativas[3]);
 
   // reset estado visual e interno
   resetCoresBotoes();
@@ -169,8 +160,6 @@ export function getPontuacaoAtual() {
 export async function carregarPergunta() {
   if (bloqueado) return;
 
-  console.log("RespondeuEsta: " + respondeuEsta) 
-  console.log("PodePedirProxima: " + podePedirProxima)
   // se ainda não confirmou a atual, ignore o clique (o botão deve estar como CONFIRMAR)
   if (!respondeuEsta && !podePedirProxima) return;
 
@@ -220,6 +209,32 @@ export function setHandleResultadoFinal(cb) {
   callbackResultadoFinal = cb;
 }
 
+
+async function enviaResposta(textoAlternativa) {
+  try {
+    const resp = await putPontuacao(textoAlternativa);
+    
+    // se o backend devolver pontuação, atualiza o placar (sem perder o ícone)
+    if (resp && typeof resp.pontuacao !== 'undefined') {
+      setPlacar(resp.pontuacao);
+    }
+
+    respondeuEsta    = true;
+    podePedirProxima = true;
+
+    // trava alternativas e muda o botão para "PRÓXIMO"
+    ['button_a', 'button_b', 'button_c', 'button_d'].forEach(id => {
+      const b = document.getElementById(id); if (b) b.disabled = true;
+    });
+    setProximoComoProximo();
+
+    return resp.acertou;
+  } catch (e) {
+    console.error('PUT pontuação:', e?.message || e);
+    // opcional: desfazer cor se quiser
+  }
+}
+
 // Confirma resposta (envia PUT) — depois o botão PROXIMO carrega a próxima
 export async function confirmarResposta() {
   if (bloqueado || respondeuEsta) return;
@@ -228,9 +243,8 @@ export async function confirmarResposta() {
   const map  = { 'button_a':'A', 'button_b':'B', 'button_c':'C', 'button_d':'D' };
   const liId = map[selecionadoId];
   const escolhido = (document.getElementById(liId)?.textContent || '').trim();
-  const acertou   = escolhido === gabaritoAtual;
 
-
+  acertou = enviaResposta(escolhido)
 
 
   // feedback imediato no botão escolhido
@@ -248,27 +262,6 @@ export async function confirmarResposta() {
         break;
       }
     }
-  }
-
-  try {
-    const resp = await putPontuacao(acertou ? 'ACERTOU' : 'ERROU');
-    console.log("Pontuação: " + resp.pontuacao)
-    // se o backend devolver pontuação, atualiza o placar (sem perder o ícone)
-    if (resp && typeof resp.pontuacao !== 'undefined') {
-      setPlacar(resp.pontuacao);
-    }
-
-    respondeuEsta    = true;
-    podePedirProxima = true;
-
-    // trava alternativas e muda o botão para "PRÓXIMO"
-    ['button_a', 'button_b', 'button_c', 'button_d'].forEach(id => {
-      const b = document.getElementById(id); if (b) b.disabled = true;
-    });
-    setProximoComoProximo();
-  } catch (e) {
-    console.error('PUT pontuação:', e?.message || e);
-    // opcional: desfazer cor se quiser
   }
 
   if(numeroQuestaoAtual == 16){

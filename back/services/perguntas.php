@@ -1,21 +1,19 @@
 <?php
 require_once dirname(__DIR__, levels: 1) . '\database.php';
 
-function getPerguntaByID($id) {
-    global $conexao;
+function escondeRespostaCorreta($questao) {
+    $questao["alternativas"] = [$questao["falsa1"], 
+                                            $questao["falsa2"], 
+                                            $questao["falsa3"], 
+                                            $questao["correta"]];
 
-    $query = "SELECT id, questao, correta, falsa1, falsa2, falsa3, dificuldade, categoria FROM perguntas
-    WHERE id = '{$id}'";
+    shuffle($questao["alternativas"]);
 
-    $resultado = $conexao->query($query);
-
-    if(! $resultado || $resultado == []) {
-        return null;
-    }
-
-    $perguntas = $resultado->fetch_all(MYSQLI_ASSOC);
-
-    return $perguntas[0];
+    unset($questao["falsa1"]);
+    unset($questao["falsa2"]);
+    unset($questao["falsa3"]);
+    unset($questao["correta"]);
+    return $questao;
 
 }
 
@@ -46,6 +44,8 @@ function sorteiaPergunta($dificuldade) {
     $perguntaSorteada = $perguntasFiltradas[array_rand($perguntasFiltradas)];
 
     $_SESSION['ids_questoes_usadas'][] = $perguntaSorteada['id'];
+
+    $perguntaSorteada = escondeRespostaCorreta($perguntaSorteada);
 
     return $perguntaSorteada;
 
