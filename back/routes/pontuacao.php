@@ -97,11 +97,20 @@ function respondeuQuestao($resultado) {
                     restauraSessao();
 
                 }
-                $_SESSION['pontuacao'] += pontuacaoQuestao($_SESSION['numero_questao']);
+                else {
+                    $_SESSION['pontuacao'] += pontuacaoQuestao($_SESSION['numero_questao']);
+                }                
                 break;
 
         case $resultado == 'ERROU':
-            $_SESSION['pontuacao'] /=  2;
+            if($_SESSION['numero_questao'] == 16){
+                    $_SESSION['pontuacao'] = 0;
+                    echo json_encode(["jogo_finalizado" => "Usuário perdeu tudo"]);
+                    restauraSessao();
+            }
+            else {
+                $_SESSION['pontuacao'] /=  2;
+            }
             break;
         case $resultado == "PAROU":
             echo json_encode(value: ["Pontuacao_final" => $_SESSION['pontuacao']]);

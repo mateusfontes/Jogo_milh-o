@@ -18,6 +18,18 @@ export function getQuizState() {
   return { gabaritoAtual, bloqueado, selecionadoId, respondeuEsta, podePedirProxima };
 }
 
+export function resetaQuizState() {
+  console.log("Resetando state")
+  gabaritoAtual    = '';
+  bloqueado        = false;  
+  selecionadoId    = null;   
+  respondeuEsta    = false;  
+  podePedirProxima = true;   
+  numeroQuestaoAtual = 1;
+  pontuacaoAtual = 0;
+  console.log("state resetado")
+}
+
 // ---------- UTILS DOM ----------
 const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 const embaralhar = (arr) => [...arr].sort(() => Math.random() - 0.5);
@@ -159,8 +171,12 @@ export function getPontuacaoAtual() {
 export async function carregarPergunta() {
   if (bloqueado) return;
 
+  console.log("RespondeuEsta: " + respondeuEsta) 
+  console.log("PodePedirProxima: " + podePedirProxima)
   // se ainda não confirmou a atual, ignore o clique (o botão deve estar como CONFIRMAR)
   if (!respondeuEsta && !podePedirProxima) return;
+
+  
 
   try {
     setText('pergunta', 'Carregando pergunta...');
@@ -216,10 +232,6 @@ export async function confirmarResposta() {
   const escolhido = (document.getElementById(liId)?.textContent || '').trim();
   const acertou   = escolhido === gabaritoAtual;
 
-  if(numeroQuestaoAtual == 16){
-
-    callbackResultadoFinal(acertou ? "GANHOU" : "PERDEU");
-  }
 
 
 
@@ -242,7 +254,7 @@ export async function confirmarResposta() {
 
   try {
     const resp = await putPontuacao(acertou ? 'ACERTOU' : 'ERROU');
-
+    console.log("Pontuação: " + resp.pontuacao)
     // se o backend devolver pontuação, atualiza o placar (sem perder o ícone)
     if (resp && typeof resp.pontuacao !== 'undefined') {
       setPlacar(resp.pontuacao);
@@ -259,5 +271,11 @@ export async function confirmarResposta() {
   } catch (e) {
     console.error('PUT pontuação:', e?.message || e);
     // opcional: desfazer cor se quiser
+  }
+
+  if(numeroQuestaoAtual == 16){
+    resetaQuizState();
+    callbackResultadoFinal(acertou ? "GANHOU" : "PERDEU");
+
   }
 }

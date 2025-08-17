@@ -1,7 +1,6 @@
 <template>
   <div class=" body">
     <section>
-
           <Modal v-model:show="mostrarModal">
             <h2>{{ mensagemFinal }}</h2>
             <RouterLink to="/" id="botaoJogarNovamente" @click.prevent="jogarNovamente">
@@ -58,7 +57,7 @@
 </template>
 
 <script>
-import { carregarPergunta, selecionarAlternativa, confirmarResposta, getQuizState, setHandleResultadoFinal, getPontuacaoAtual } from "./jogo.js";
+import { carregarPergunta, selecionarAlternativa, confirmarResposta, resetaQuizState, getQuizState, setHandleResultadoFinal, getPontuacaoAtual } from "./jogo.js";
 import Modal from "../modalResultadoFinal/index.vue";
 
 const URL_PONTUACAO = 'http://localhost/Jogo_milh-o/back/routes/pontuacao.php'; // se não usar proxy, troque para http://localhost/PW/trabalho/back/routes/pontuacao.php
@@ -114,8 +113,8 @@ export default {
     };
   },
   mounted() {
-
     setHandleResultadoFinal(this.handleResultadoFinal);
+
     console.log("Carregando pergunta")
     // 1) carrega a primeira pergunta
     carregarPergunta();
@@ -144,6 +143,7 @@ export default {
     const parar = document.getElementById('parar');
     if (parar) {
       parar.addEventListener('click', async () => {
+        resetaQuizState();
         this.handleResultadoFinal("PAROU")
       });
     }
