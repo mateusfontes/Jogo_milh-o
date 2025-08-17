@@ -143,8 +143,8 @@ export default {
     const parar = document.getElementById('parar');
     if (parar) {
       parar.addEventListener('click', async () => {
-        resetaQuizState();
         this.handleResultadoFinal("PAROU")
+        resetaQuizState();
       });
     }
   },

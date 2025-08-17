@@ -19,7 +19,6 @@ export function getQuizState() {
 }
 
 export function resetaQuizState() {
-  console.log("Resetando state")
   gabaritoAtual    = '';
   bloqueado        = false;  
   selecionadoId    = null;   
@@ -27,7 +26,6 @@ export function resetaQuizState() {
   podePedirProxima = true;   
   numeroQuestaoAtual = 1;
   pontuacaoAtual = 0;
-  console.log("state resetado")
 }
 
 // ---------- UTILS DOM ----------
