@@ -2,6 +2,7 @@
 
 require dirname(__DIR__, 1) . '\cors.php';
 require_once dirname(__DIR__, levels: 1) . '\services\pontuacao.php';
+require_once "dadosSecao.php";
 
 $metodo = $_SERVER['REQUEST_METHOD'];
 

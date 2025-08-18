@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { carregarPergunta, selecionarAlternativa, confirmarResposta, resetaQuizState, getQuizState, setHandleResultadoFinal, getPontuacaoAtual } from "./jogo.js";
+import { carregarPergunta, selecionarAlternativa, confirmarResposta, resetaQuizState, getQuizState, setHandleResultadoFinal, getPontuacaoAtual, pularQuestaoAtual } from "./jogo.js";
 import Modal from "../modalResultadoFinal/index.vue";
 
 const URL_PONTUACAO = 'http://localhost/Jogo_milh-o/back/routes/pontuacao.php'; // se não usar proxy, troque para http://localhost/PW/trabalho/back/routes/pontuacao.php
@@ -115,11 +115,8 @@ export default {
   mounted() {
     setHandleResultadoFinal(this.handleResultadoFinal);
 
-    console.log("Carregando pergunta")
     // 1) carrega a primeira pergunta
     carregarPergunta();
-    console.log("carregou pergunta")
-
 
     // 2) Botão PROXIMO:
     //    - se ainda não confirmou, CONFIRMA (PUT)
@@ -136,7 +133,7 @@ export default {
           await carregarPergunta();       // depois pede a próxima
         }
       });
-    }    
+    }   
 
 
     // 3) Botão PARAR
@@ -147,6 +144,12 @@ export default {
         resetaQuizState();
       });
     }
+
+    //Botão PULO
+    const botao_pular = document.getElementById("coelho")
+    botao_pular.addEventListener('click', pularQuestaoAtual)
+
+
   },
 };
 </script>

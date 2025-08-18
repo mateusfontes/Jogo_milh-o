@@ -2,6 +2,7 @@
 const URL_PERGUNTAS = 'http://localhost/Jogo_milh-o/back/routes/perguntas.php';
 const URL_PONTUACAO = 'http://localhost/Jogo_milh-o/back/routes/pontuacao.php';
 const URL_CATEGORIA = 'http://localhost/Jogo_milh-o/back/routes/categoria.php';
+const URL_AJUDAS = 'http://localhost/Jogo_milh-o/back/routes/ajuda.php';
 
 
 // ---------- ESTADO (exportado p/ o componente consultar) ----------
@@ -244,8 +245,7 @@ export async function confirmarResposta() {
   const liId = map[selecionadoId];
   const escolhido = (document.getElementById(liId)?.textContent || '').trim();
 
-  acertou = enviaResposta(escolhido)
-
+  const acertou = enviaResposta(escolhido)
 
   // feedback imediato no botão escolhido
   const btn = document.getElementById(selecionadoId);
@@ -269,4 +269,20 @@ export async function confirmarResposta() {
     callbackResultadoFinal(acertou ? "GANHOU" : "PERDEU");
 
   }
+}
+
+export async function pularQuestaoAtual() {
+  const tipo = "PULO"
+
+  console.log("Pulando")
+
+  const urlRequisicao = new URL(URL_AJUDAS)
+
+  urlRequisicao.searchParams.set("tipo", tipo)
+
+  const response = await fetch(urlRequisicao)
+  const novaPergunta = await response.json()
+  renderPergunta(novaPergunta)
+
+  console.log("Pulou")
 }
