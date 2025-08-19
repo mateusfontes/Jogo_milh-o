@@ -1,6 +1,21 @@
 <?php
 require_once dirname(__DIR__, levels: 1) . '\database.php';
 
+function escondeRespostaCorreta($questao) {
+    $questao["alternativas"] = [$questao["falsa1"], 
+                                            $questao["falsa2"], 
+                                            $questao["falsa3"], 
+                                            $questao["correta"]];
+
+    shuffle($questao["alternativas"]);
+
+    unset($questao["falsa1"]);
+    unset($questao["falsa2"]);
+    unset($questao["falsa3"]);
+    unset($questao["correta"]);
+    return $questao;
+
+}
 
 function sorteiaPergunta($dificuldade) {
     
@@ -18,8 +33,6 @@ function sorteiaPergunta($dificuldade) {
     }
 
 
-
-
     $perguntas = $resultado->fetch_all(MYSQLI_ASSOC);
 
     $perguntasFiltradas = array_filter($perguntas, 
@@ -31,6 +44,8 @@ function sorteiaPergunta($dificuldade) {
     $perguntaSorteada = $perguntasFiltradas[array_rand($perguntasFiltradas)];
 
     $_SESSION['ids_questoes_usadas'][] = $perguntaSorteada['id'];
+
+    $perguntaSorteada = escondeRespostaCorreta($perguntaSorteada);
 
     return $perguntaSorteada;
 
