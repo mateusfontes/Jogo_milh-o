@@ -2,7 +2,7 @@
 $servidor = "localhost";
 $port = 3306;
 $usuario = "root";
-$senha = "root";
+$senha = "M181988m*";
 $banco = "show_milhao";
 
 

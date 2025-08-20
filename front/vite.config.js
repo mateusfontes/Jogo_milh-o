@@ -6,9 +6,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost/PW/trabalho/trabalho/back/routes',
+        target: 'http://localhost',          // Apache (porta 80)
         changeOrigin: true,
-        rewrite: p => p.replace(/^\/api/, ''),
+        // /api/perguntas.php -> /Jogo_milh-o/back/routes/perguntas.php
+        rewrite: p => p.replace(/^\/api/, '/Jogo_milh-o/back/routes'),
       },
     },
   },
