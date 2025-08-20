@@ -274,15 +274,24 @@ export async function confirmarResposta() {
 export async function pularQuestaoAtual() {
   const tipo = "PULO"
 
-  console.log("Pulando")
 
   const urlRequisicao = new URL(URL_AJUDAS)
 
   urlRequisicao.searchParams.set("tipo", tipo)
 
-  const response = await fetch(urlRequisicao)
+  const response = await fetch(urlRequisicao, {
+      method: "GET",
+      credentials: "include",        // <- ESSENCIAL
+      headers: { Accept: "application/json" }
+    })
+
+  if (response.status === 403) {
+    setText("limitePulos", "**Limite de pulos atingidos.**");
+  }
+
   const novaPergunta = await response.json()
+
+  numeroQuestaoAtual = novaPergunta.numero_questao
   renderPergunta(novaPergunta)
 
-  console.log("Pulou")
 }

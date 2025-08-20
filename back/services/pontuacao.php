@@ -54,6 +54,7 @@ function restauraSessao() {
     unset($_SESSION['numero_questao']);
     unset($_SESSION['pontuacao']);
     unset($_SESSION['id_questao_atual']);
+    unset($_SESSION['pulos_usados']);
     exit();
 
 }
@@ -93,7 +94,7 @@ function respondeuQuestao($alternativa) {
 
     
 
-    $_SESSION["numero_questao"] += 1;
+    $_SESSION["numero_questao"] = $_SESSION["numero_questao"] + 1;
     $_SESSION['id_questao_atual'] = null;
 
     return $acertou;

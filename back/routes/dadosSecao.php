@@ -23,4 +23,8 @@ if (session_status() === PHP_SESSION_NONE) {
         $_SESSION['categoria_perguntas'] = "conhecimentos-gerais";
     }
 
+    if (!isset($_SESSION['pulos_usados'])) {
+        $_SESSION['pulos_usados'] = 0;
+    }
+
 }

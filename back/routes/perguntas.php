@@ -16,7 +16,7 @@ switch ($metodo) {
             echo json_encode($dict_pergunta);
         }
         else {
-            get_pergunta($_SESSION["numero_questao"]); 
+            get_pergunta(); 
         }
 
         break;

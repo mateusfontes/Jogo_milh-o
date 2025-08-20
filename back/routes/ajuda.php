@@ -8,7 +8,6 @@ require_once "dadosSecao.php";
 $metodo = $_SERVER['REQUEST_METHOD'];
 
 
-
 switch ($metodo) {
     case 'GET':
         $input = json_decode(file_get_contents("php://input"), true);
@@ -28,3 +27,4 @@ switch ($metodo) {
         echo json_encode(["erro" => "Método não permitido"]);
         break;
 }
+

@@ -63,27 +63,26 @@ function registra_pergunta($questao, $correta, $falsa1, $falsa2, $falsa3, $dific
 }
 
 
-function get_pergunta($numeroPergunta) {
-    if($numeroPergunta >= 1 && $numeroPergunta <= 5) {
+function get_pergunta() {
+    if($_SESSION['numero_questao'] >= 1 && $_SESSION['numero_questao'] <= 5) {
         $dificuldade = 'FACIL';
     }
-    else if($numeroPergunta >= 6 && $numeroPergunta <= 10) {
+    else if($_SESSION['numero_questao'] >= 6 && $_SESSION['numero_questao'] <= 10) {
         $dificuldade = 'MEDIA';
     }
-    else if($numeroPergunta >= 11 && $numeroPergunta <= 16){
+    else if($_SESSION['numero_questao'] >= 11 && $_SESSION['numero_questao'] <= 16){
         $dificuldade = 'DIFICIL';
     }
     else {
         echo json_encode(["erro" => "Limite de perguntas alcançado"]);
     }
 
-    if ($numeroPergunta >= 1 && $numeroPergunta <= 16){
 
-        $dict_pergunta = sorteiaPergunta($dificuldade);
-        $dict_pergunta["numero_questao"] = $_SESSION['numero_questao'];
-        $_SESSION['id_questao_atual'] = $dict_pergunta["id"];
-        echo json_encode($dict_pergunta);
-    }
+    $dict_pergunta = sorteiaPergunta($dificuldade);
+    $dict_pergunta["numero_questao"] = $_SESSION['numero_questao'];
+    $_SESSION['id_questao_atual'] = $dict_pergunta["id"];
+    echo json_encode($dict_pergunta);
+    
 }
 
 function create_pergunta($questao, $correta, $falsa1, $falsa2, $falsa3, $dificuldade, $categoria){

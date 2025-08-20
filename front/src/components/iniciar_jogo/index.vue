@@ -44,6 +44,7 @@
               </div>
               <div id="conteudo-ajuda">
                   <div id="ajuda">
+                      <p id="limitePulos"></p>
                       <button><img id="coelho" src="../../assets/imgs/coelho.png" alt=""></button>
                       <button><img id="baralho" src="../../assets/imgs/baralho.png" alt=""></button>
                   </div>
