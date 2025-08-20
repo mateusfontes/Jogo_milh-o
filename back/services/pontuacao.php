@@ -55,6 +55,8 @@ function restauraSessao() {
     unset($_SESSION['pontuacao']);
     unset($_SESSION['id_questao_atual']);
     unset($_SESSION['pulos_usados']);
+    unset($_SESSION['cartas_usadas']);
+    unset($_SESSION['alternativas_reveladas']);
     exit();
 
 }

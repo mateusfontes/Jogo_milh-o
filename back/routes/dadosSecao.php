@@ -27,4 +27,12 @@ if (session_status() === PHP_SESSION_NONE) {
         $_SESSION['pulos_usados'] = 0;
     }
 
+    if (!isset($_SESSION['cartas_usadas'])) {
+        $_SESSION['cartas_usadas'] = 0;
+    }
+
+    if (!isset($_SESSION['alternativas_reveladas'])) {
+        $_SESSION['alternativas_reveladas'] = [];
+    }
+
 }

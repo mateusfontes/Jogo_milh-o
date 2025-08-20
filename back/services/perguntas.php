@@ -77,6 +77,8 @@ function get_pergunta() {
         echo json_encode(["erro" => "Limite de perguntas alcançado"]);
     }
 
+    $_SESSION['alternativas_reveladas'] = [];
+
 
     $dict_pergunta = sorteiaPergunta($dificuldade);
     $dict_pergunta["numero_questao"] = $_SESSION['numero_questao'];

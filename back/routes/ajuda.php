@@ -17,7 +17,7 @@ switch ($metodo) {
             pularQuestao();
         }
         else if ($ajuda == "CARTA") {
-
+            revelarErrada();
         }
         else {
             echo json_encode(["erro" => "Método não permitido"]);

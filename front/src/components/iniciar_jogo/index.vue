@@ -45,6 +45,7 @@
               <div id="conteudo-ajuda">
                   <div id="ajuda">
                       <p id="limitePulos"></p>
+                      <p id="limiteCartas"></p>
                       <button><img id="coelho" src="../../assets/imgs/coelho.png" alt=""></button>
                       <button><img id="baralho" src="../../assets/imgs/baralho.png" alt=""></button>
                   </div>
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-import { carregarPergunta, selecionarAlternativa, confirmarResposta, resetaQuizState, getQuizState, setHandleResultadoFinal, getPontuacaoAtual, pularQuestaoAtual } from "./jogo.js";
+import { carregarPergunta, selecionarAlternativa, confirmarResposta, resetaQuizState, getQuizState, setHandleResultadoFinal, getPontuacaoAtual, pularQuestaoAtual, eliminarAlternativaFalsa } from "./jogo.js";
 import Modal from "../modalResultadoFinal/index.vue";
 
 const URL_PONTUACAO = 'http://localhost/Jogo_milh-o/back/routes/pontuacao.php'; // se não usar proxy, troque para http://localhost/PW/trabalho/back/routes/pontuacao.php
@@ -150,6 +151,8 @@ export default {
     const botao_pular = document.getElementById("coelho")
     botao_pular.addEventListener('click', pularQuestaoAtual)
 
+    const botao_carta = document.getElementById("baralho")
+    botao_carta.addEventListener('click', eliminarAlternativaFalsa)
 
   },
 };

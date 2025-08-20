@@ -281,7 +281,7 @@ export async function pularQuestaoAtual() {
 
   const response = await fetch(urlRequisicao, {
       method: "GET",
-      credentials: "include",        // <- ESSENCIAL
+      credentials: "include",       
       headers: { Accept: "application/json" }
     })
 
@@ -294,4 +294,22 @@ export async function pularQuestaoAtual() {
   numeroQuestaoAtual = novaPergunta.numero_questao
   renderPergunta(novaPergunta)
 
+}
+
+export async function eliminarAlternativaFalsa() {
+  const tipo = "CARTA"
+
+  const urlRequisicao = new URL(URL_AJUDAS)
+
+  urlRequisicao.searchParams.set("tipo", tipo)
+
+  const response = await fetch(urlRequisicao, {
+      method: "GET",
+      credentials: "include",
+      headers: { Accept: "application/json" }
+    })
+
+  if (response.status === 403) {
+    setText("limiteCartas", "**Limite de cartas atingidos.**");
+  }
 }
