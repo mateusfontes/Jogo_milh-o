@@ -155,4 +155,27 @@ export default {
 <style scoped>
 @import url(../../assets/css/global.css);
 @import url(../../assets/css/jogo.css);
+
+#botaoJogarNovamente {
+  margin-top: 15px;
+  padding: 12px 24px;
+  border: 3px solid rgb(63, 63, 212);
+  background: rgb(63, 63, 212);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none; /* tira o sublinhado do RouterLink */
+  transition: all 0.3s ease;
+}
+
+#botaoJogarNovamente:hover {
+  background: white;
+  color: rgb(63, 63, 212);
+}
+
+#botaoJogarNovamente:active {
+  transform: scale(0.95);
+}
 </style>
