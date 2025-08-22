@@ -296,6 +296,29 @@ export async function pularQuestaoAtual() {
 
 }
 
+function pegaAlternativas() {
+  return [document.getElementById("A").textContent,
+  document.getElementById("B").textContent,
+  document.getElementById("C").textContent,
+  document.getElementById("D").textContent]
+}
+
+function indentificaErrada(textoErrada) {
+  const alternativas = pegaAlternativas()
+  if(alternativas[0] === textoErrada) {
+    return "A"
+  }
+  if(alternativas[1] === textoErrada) {
+    return "B"
+  }
+  if(alternativas[2] === textoErrada) {
+    return "C"
+  }
+  if(alternativas[3] === textoErrada) {
+    return "D"
+  }
+}
+
 export async function eliminarAlternativaFalsa() {
   const tipo = "CARTA"
 
@@ -312,4 +335,14 @@ export async function eliminarAlternativaFalsa() {
   if (response.status === 403) {
     setText("limiteCartas", "**Limite de cartas atingidos.**");
   }
+  else {
+    const dados = await response.json()
+    const erradaTexto = dados.errada
+    
+    const alternativa = indentificaErrada(erradaTexto)
+
+    setText(alternativa, "------------------")
+
+  }
+
 }
