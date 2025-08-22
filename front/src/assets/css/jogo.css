@@ -139,6 +139,12 @@ button{
     margin-left: 20px;
 }
 
+#parar img:hover{
+    background-image: linear-gradient(to bottom,  #690000 0%, #a12a2a 50%, #690000 100%);
+    width: 160px;
+    height: auto;
+    transition: 0.2s;
+}
 #conteudo-ajuda{
     width: 100%;
     display: flex;

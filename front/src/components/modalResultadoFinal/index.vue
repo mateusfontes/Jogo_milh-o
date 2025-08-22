@@ -1,9 +1,9 @@
 <template>
   <div
-    v-if="show"
-    class="modal-overlay"
-    @click.self="close"
-  >
+      v-if="show"
+      class="modal-overlay"
+      @click.self="close"
+    >
     <div class="modal-content">
       <slot></slot>
     </div>
@@ -42,6 +42,10 @@ export default {
 }
 
 .modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background: white;
   padding: 1.5rem;
   border-radius: 8px;
@@ -49,6 +53,7 @@ export default {
   max-width: 90%;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   position: relative;
+  border: rgb(63, 63, 212) solid 5px;
 }
 
 </style>
